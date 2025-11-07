@@ -3,12 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import {
-  // STARTER_PROMPTS,
-  // PLACEHOLDER_INPUT,
-  // GREETING,
   CREATE_SESSION_ENDPOINT,
   WORKFLOW_ID,
-  // getThemeConfig,
 } from "@/lib/config";
 import { ErrorOverlay } from "./ErrorOverlay";
 import type { ColorScheme } from "@/hooks/useColorScheme";
@@ -193,7 +189,6 @@ export function ChatKitPanel({
           body: JSON.stringify({
             workflow: { id: WORKFLOW_ID },
             chatkit_configuration: {
-              // enable attachments
               file_upload: {
                 enabled: true,
               },
@@ -264,73 +259,70 @@ export function ChatKitPanel({
   const chatkit = useChatKit({
     api: { getClientSecret },
 
-   theme: {
-    colorScheme: 'light',
-    radius: 'pill',
-    density: 'normal',
-    color: {
-      grayscale: {
-        hue: 145,
-        tint: 9,
-        shade: 4
+    theme: {
+      colorScheme: theme === 'dark' ? 'dark' : 'light',
+      radius: 'round',
+      density: 'normal',
+      color: {
+        grayscale: {
+          hue: 220,
+          tint: 8,
+          shade: 4
+        },
+        accent: {
+          primary: '#2563eb', // Professional blue
+          level: 1
+        }
       },
-      accent: {
-        primary: '#088c3b',
-        level: 1
+      typography: {
+        baseSize: 16
       }
     },
-    typography: {
-      baseSize: 17
-    }
-  },
-  composer: {
-    placeholder: 'Type your question or upload your file…',
-    attachments: {
-      enabled: true,
-      maxCount: 5,
-      maxSize: 10485760
+    composer: {
+      placeholder: 'Ask a question or upload your assignment file...',
+      attachments: {
+        enabled: true,
+        maxCount: 5,
+        maxSize: 10485760
+      },
+      models: [
+        {
+          id: 'crisp',
+          label: 'Crisp',
+          description: 'Quick and concise feedback'
+        },
+        {
+          id: 'chatty',
+          label: 'Detailed',
+          description: 'Comprehensive explanations'
+        },
+        {
+          id: "clear",
+          label: "Clear",
+          description: "Simple and straightforward"
+        }
+      ],
     },
-    tools: [
-      {
-        id: 'search_docs',
-        label: 'Search docs',
-        shortLabel: 'Docs',
-        placeholderOverride: 'Search documentation',
-        icon: 'book-open',
-        pinned: false
-      }
-      // ...and 1 more tool
-    ],
-    models: [
-      {
-        id: 'crisp',
-        label: 'Crisp',
-        description: 'Concise and factual'
-      }
-      // ...and 2 more models
-    ],
-  },
-  startScreen: {
-    greeting: '"Hi there! 👋 I’m your Grading Assistant. Please upload your assignment or ask me about your submission status"',
-    prompts: [
-       {
-        icon: 'check-circle',
-        label: 'Submit my assignment for grading',
-        prompt: 'Submit my assignment for grading'
+    disclaimer: {
+      text: "🎓 AI-powered grading assistant. Always review results before final submission.",
+      highContrast: true,
     },
-    {
-      icon: 'info',
-      label: 'Check if my submission was received',
-      prompt: 'Check if my submission was received'
+    startScreen: {
+      greeting: '👋 Welcome to your Grading Assistant! Upload your assignment to get started.',
+      prompts: [
+        {
+          icon: 'star',
+          label: 'Submit assignment for grading',
+          prompt: 'I want to submit my assignment for grading'
+        },
+        {
+          icon: 'chart',
+          label: 'View my grades and feedback',
+          prompt: 'Show me my current grades and feedback'
+        },
+        
+      ],
     },
-    {
-      icon: 'circle-question',
-      label: 'Show my current grade and feedback',
-      prompt: 'Show my current grade and feedback'
-    }
-    ],
-  },
-
     threadItemActions: {
       feedback: false,
     },
@@ -377,8 +369,6 @@ export function ChatKitPanel({
       processedFacts.current.clear();
     },
     onError: ({ error }: { error: unknown }) => {
-      // Note that Chatkit UI handles errors for your users.
-      // Thus, your app code doesn't need to display errors on UI.
       console.error("ChatKit error", error);
     },
   });
@@ -397,26 +387,103 @@ export function ChatKitPanel({
   }
 
   return (
-    <div className="relative pb-8 flex h-[90vh] w-full rounded-2xl flex-col overflow-hidden bg-white shadow-sm transition-colors dark:bg-slate-900">
-      <ChatKit
-        key={widgetInstanceKey}
-        control={chatkit.control}
-        className={
-          blockingError || isInitializingSession
-            ? "pointer-events-none opacity-0"
-            : "block h-full w-full"
-        }
-      />
-      <ErrorOverlay
-        error={blockingError}
-        fallbackMessage={
-          blockingError || !isInitializingSession
-            ? null
-            : "Loading assistant session..."
-        }
-        onRetry={blockingError && errors.retryable ? handleResetChat : null}
-        retryLabel="Restart chat"
-      />
+    <div className="relative w-full h-full">
+      {/* Main container - transparent to show ChatKit's own background */}
+      <div className="relative flex h-[92vh] w-full rounded-3xl flex-col overflow-hidden shadow-2xl transition-all duration-300 ease-in-out border border-slate-700/50">
+        {/* Decorative top bar */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 z-10" />
+        
+        {/* Header section - minimal styling */}
+        <div className="px-6 py-4 border-b border-slate-700/30 bg-slate-800/30 backdrop-blur-sm relative z-10">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-blue-600/20 text-blue-400">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h2 className="text-lg font-bold tracking-tight text-white">
+                  Grading Assistant
+                </h2>
+                <p className="text-xs text-slate-400">
+                  AI-powered assignment evaluation
+                </p>
+              </div>
+            </div>
+            
+            {/* Status indicator */}
+            <div className="flex items-center gap-2">
+              <div className={`
+                px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5
+                ${!blockingError && !isInitializingSession
+                  ? 'bg-emerald-900/30 text-emerald-400 border border-emerald-800'
+                  : 'bg-slate-700/50 text-slate-400 border border-slate-600'
+                }
+              `}>
+                <span className={`
+                  w-1.5 h-1.5 rounded-full
+                  ${!blockingError && !isInitializingSession
+                    ? 'bg-emerald-500 animate-pulse'
+                    : 'bg-slate-400'
+                  }
+                `} />
+                {!blockingError && !isInitializingSession ? 'Ready' : 'Connecting...'}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ChatKit container with enhanced styling */}
+        <div className="relative flex-1 overflow-hidden">
+          <ChatKit
+            key={widgetInstanceKey}
+            control={chatkit.control}
+            className={`
+              transition-all duration-300
+              ${blockingError || isInitializingSession
+                ? 'pointer-events-none opacity-0 scale-95'
+                : 'block h-full w-full opacity-100 scale-100'
+              }
+            `}
+          />
+          
+          {/* Loading state with better visuals */}
+          {isInitializingSession && !blockingError && (
+            <div className="absolute inset-0 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm z-20">
+              <div className="text-center space-y-4">
+                <div className="relative w-16 h-16 mx-auto">
+                  <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-blue-500 animate-spin" />
+                  <div className="absolute inset-2 rounded-full bg-slate-800" />
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-slate-200">
+                    Initializing your grading assistant
+                  </p>
+                  <p className="text-xs text-slate-400">
+                    Setting up secure connection...
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          <ErrorOverlay
+            error={blockingError}
+            fallbackMessage={null}
+            onRetry={blockingError && errors.retryable ? handleResetChat : null}
+            retryLabel="Restart Assistant"
+          />
+        </div>
+
+        {/* Footer with branding */}
+        <div className="px-6 py-3 border-t border-slate-700/30 bg-slate-800/30 backdrop-blur-sm text-center relative z-10">
+          <p className="text-xs flex items-center justify-center gap-1.5 text-slate-400">
+            <span className="text-blue-500">✨</span>
+            Powered by AI • Made by psqasim
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
