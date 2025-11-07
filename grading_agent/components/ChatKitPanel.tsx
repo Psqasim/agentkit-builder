@@ -328,9 +328,7 @@ export function ChatKitPanel({
         
       ],
     },
-    threadItemActions: {
-      feedback: false,
-    },
+    
     onClientTool: async (invocation: {
       name: string;
       params: Record<string, unknown>;
