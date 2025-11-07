@@ -307,6 +307,11 @@ export function ChatKitPanel({
       text: "🎓 AI-powered grading assistant. Always review results before final submission.",
       highContrast: true,
     },
+    threadItemActions: {
+      feedback:true,
+      retry: true,
+
+    },
     startScreen: {
       greeting: '👋 Welcome to your Grading Assistant! Upload your assignment to get started.',
       prompts: [
