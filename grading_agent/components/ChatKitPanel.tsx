@@ -270,7 +270,7 @@ export function ChatKitPanel({
           shade: 4
         },
         accent: {
-          primary: '#2563eb', // Professional blue
+          primary: '#6366f1',
           level: 1
         }
       },
@@ -390,82 +390,144 @@ export function ChatKitPanel({
   }
 
   return (
-    <div className="relative w-full h-full">
-      {/* Main container - transparent to show ChatKit's own background */}
-      <div className="relative flex h-[92vh] w-full rounded-3xl flex-col overflow-hidden shadow-2xl transition-all duration-300 ease-in-out border border-slate-700/50">
-        {/* Decorative top bar */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 z-10" />
+    <div className="relative w-full h-full px-4 pb-6">
+      {/* Modern floating card container */}
+      <div className="relative flex h-[90vh] w-full rounded-[2rem] flex-col overflow-hidden 
+                      bg-gradient-to-br from-white via-gray-50 to-gray-100
+                      dark:from-gray-900 dark:via-gray-900 dark:to-gray-950
+                      shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]
+                      dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)]
+                      border border-gray-200/50 dark:border-gray-800/50
+                      transition-all duration-500 ease-out
+                      hover:shadow-[0_25px_70px_-15px_rgba(0,0,0,0.4)]
+                      dark:hover:shadow-[0_25px_70px_-15px_rgba(0,0,0,0.7)]">
         
-        {/* Header section - minimal styling */}
-        <div className="px-6 py-4 border-b border-slate-700/30 bg-slate-800/30 backdrop-blur-sm relative z-10">
+        {/* Animated gradient accent bar */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 
+                        animate-gradient-x z-20" />
+        
+        {/* Decorative blur orbs */}
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 
+                        rounded-full blur-3xl pointer-events-none animate-pulse" 
+             style={{ animationDuration: '4s' }} />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-gradient-to-tr from-pink-400/20 to-indigo-400/20 
+                        rounded-full blur-3xl pointer-events-none animate-pulse" 
+             style={{ animationDuration: '5s', animationDelay: '1s' }} />
+        
+        {/* Header with glassmorphism effect */}
+        <div className="relative px-6 py-5 border-b border-gray-200/70 dark:border-gray-800/70 
+                        bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl z-10">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-blue-600/20 text-blue-400">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+            <div className="flex items-center gap-4">
+              {/* Animated icon container */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl blur-md 
+                                opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative p-3 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 
+                                shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} 
+                          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
               </div>
+              
               <div>
-                <h2 className="text-lg font-bold tracking-tight text-white">
+                <h2 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 
+                              dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent">
                   Grading Assistant
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5 font-medium">
                   AI-powered assignment evaluation
                 </p>
               </div>
             </div>
             
-            {/* Status indicator */}
-            <div className="flex items-center gap-2">
+            {/* Enhanced status indicator */}
+            <div className="flex items-center gap-3">
               <div className={`
-                px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5
+                relative px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2
+                transition-all duration-300 overflow-hidden
                 ${!blockingError && !isInitializingSession
-                  ? 'bg-emerald-900/30 text-emerald-400 border border-emerald-800'
-                  : 'bg-slate-700/50 text-slate-400 border border-slate-600'
+                  ? 'bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border-2 border-emerald-500/30'
+                  : 'bg-amber-500/10 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 border-2 border-amber-500/30'
                 }
               `}>
-                <span className={`
-                  w-1.5 h-1.5 rounded-full
-                  ${!blockingError && !isInitializingSession
-                    ? 'bg-emerald-500 animate-pulse'
-                    : 'bg-slate-400'
-                  }
-                `} />
-                {!blockingError && !isInitializingSession ? 'Ready' : 'Connecting...'}
+                <div className="relative">
+                  <span className={`
+                    block w-2.5 h-2.5 rounded-full
+                    ${!blockingError && !isInitializingSession
+                      ? 'bg-emerald-500 shadow-lg shadow-emerald-500/50'
+                      : 'bg-amber-500 shadow-lg shadow-amber-500/50'
+                    }
+                  `}>
+                    {!blockingError && !isInitializingSession && (
+                      <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-75" />
+                    )}
+                  </span>
+                </div>
+                <span className="relative z-10">
+                  {!blockingError && !isInitializingSession ? 'Online' : 'Connecting'}
+                </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ChatKit container with enhanced styling */}
-        <div className="relative flex-1 overflow-hidden">
+        {/* Main ChatKit container with enhanced styling */}
+        <div className="relative flex-1 overflow-hidden bg-gradient-to-b from-transparent to-gray-50/30 dark:to-gray-950/30">
           <ChatKit
             key={widgetInstanceKey}
             control={chatkit.control}
             className={`
-              transition-all duration-300
+              h-full w-full
+              transition-all duration-500 ease-out
               ${blockingError || isInitializingSession
-                ? 'pointer-events-none opacity-0 scale-95'
-                : 'block h-full w-full opacity-100 scale-100'
+                ? 'pointer-events-none opacity-0 scale-98 blur-sm'
+                : 'opacity-100 scale-100 blur-0'
               }
             `}
           />
           
-          {/* Loading state with better visuals */}
+          {/* Premium loading state */}
           {isInitializingSession && !blockingError && (
-            <div className="absolute inset-0 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm z-20">
-              <div className="text-center space-y-4">
-                <div className="relative w-16 h-16 mx-auto">
-                  <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-blue-500 animate-spin" />
-                  <div className="absolute inset-2 rounded-full bg-slate-800" />
+            <div className="absolute inset-0 flex items-center justify-center 
+                          bg-gradient-to-br from-white/95 via-gray-50/95 to-gray-100/95
+                          dark:from-gray-900/95 dark:via-gray-900/95 dark:to-gray-950/95
+                          backdrop-blur-xl z-30">
+              <div className="text-center space-y-8 px-8">
+                {/* Animated loader */}
+                <div className="relative w-24 h-24 mx-auto">
+                  <div className="absolute inset-0 rounded-full border-4 border-gray-200 dark:border-gray-800" />
+                  <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-r-transparent 
+                                border-indigo-600 dark:border-indigo-400 animate-spin" 
+                       style={{ animationDuration: '1.5s' }} />
+                  <div className="absolute inset-3 rounded-full border-4 border-t-transparent border-l-transparent 
+                                border-purple-600 dark:border-purple-400 animate-spin" 
+                       style={{ animationDuration: '2s', animationDirection: 'reverse' }} />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-3 h-3 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 
+                                  animate-pulse shadow-lg shadow-indigo-500/50" />
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium text-slate-200">
-                    Initializing your grading assistant
+                
+                <div className="space-y-3">
+                  <p className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                    Initializing Your Assistant
                   </p>
-                  <p className="text-xs text-slate-400">
-                    Setting up secure connection...
+                  <p className="text-sm text-gray-600 dark:text-gray-400 max-w-xs mx-auto leading-relaxed">
+                    Setting up secure connection and preparing your personalized grading environment
                   </p>
+                </div>
+                
+                {/* Loading dots */}
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400 animate-bounce" 
+                       style={{ animationDelay: '0s' }} />
+                  <div className="w-2 h-2 rounded-full bg-purple-600 dark:bg-purple-400 animate-bounce" 
+                       style={{ animationDelay: '0.2s' }} />
+                  <div className="w-2 h-2 rounded-full bg-pink-600 dark:bg-pink-400 animate-bounce" 
+                       style={{ animationDelay: '0.4s' }} />
                 </div>
               </div>
             </div>
@@ -479,12 +541,30 @@ export function ChatKitPanel({
           />
         </div>
 
-        {/* Footer with branding */}
-        <div className="px-6 py-3 border-t border-slate-700/30 bg-slate-800/30 backdrop-blur-sm text-center relative z-10">
-          <p className="text-xs flex items-center justify-center gap-1.5 text-slate-400">
-            <span className="text-blue-500">✨</span>
-            Powered by AI • Made by psqasim
-          </p>
+        {/* Modern footer with branding */}
+        <div className="relative px-6 py-4 border-t border-gray-200/70 dark:border-gray-800/70 
+                        bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl z-10">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500">
+              <svg className="w-4 h-4 text-indigo-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span className="font-medium">Secure & Private</span>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-500 dark:text-gray-500">Crafted by</span>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg 
+                            bg-gradient-to-r from-indigo-500/10 to-purple-500/10 
+                            dark:from-indigo-500/20 dark:to-purple-500/20
+                            border border-indigo-500/20 dark:border-indigo-500/30">
+                <span className="text-sm font-bold bg-gradient-to-r from-indigo-600 to-purple-600 
+                               dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+                  psqasim
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
