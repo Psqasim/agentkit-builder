@@ -304,7 +304,7 @@ export function ChatKitPanel({
       ],
     },
     disclaimer: {
-      text: "🎓 AI-powered grading assistant. Always review results before final submission.",
+      text: "🎓 This AI assistant provides automated grading help. Please verify results before final submission.",
       highContrast: true,
     },
     threadItemActions: {
