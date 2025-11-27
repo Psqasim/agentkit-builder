@@ -266,6 +266,7 @@ export function ChatKitPanel({
 
   const chatkit = useChatKit({
     api: { getClientSecret },
+    // for custom theming
      theme: {
   colorScheme: theme === 'dark' ? 'dark' : 'light',
   radius: 'round',
