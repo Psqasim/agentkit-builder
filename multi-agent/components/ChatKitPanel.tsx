@@ -24,6 +24,7 @@ type ChatKitPanelProps = {
   onWidgetAction: (action: FactAction) => Promise<void>;
   onResponseEnd: () => void;
   onThemeRequest: (scheme: ColorScheme) => void;
+  onSessionReady?: () => void;
 };
 
 type ErrorState = {
@@ -48,6 +49,7 @@ export function ChatKitPanel({
   onWidgetAction,
   onResponseEnd,
   onThemeRequest,
+  onSessionReady,
 }: ChatKitPanelProps) {
   const processedFacts = useRef(new Set<string>());
   const [errors, setErrors] = useState<ErrorState>(() => createInitialErrors());
@@ -239,6 +241,7 @@ export function ChatKitPanel({
 
         if (isMountedRef.current) {
           setErrorState({ session: null, integration: null });
+          onSessionReady?.();
         }
 
         return clientSecret;
@@ -430,7 +433,15 @@ startScreen: {
   }
 
   return (
-    <div className="relative pb-8 flex h-[90vh] w-full rounded-2xl flex-col overflow-hidden bg-white shadow-sm transition-colors dark:bg-slate-900">
+    <div
+      className="relative pb-8 flex h-[90vh] w-full rounded-3xl flex-col overflow-hidden shadow-zen-lg transition-all duration-500"
+      style={{
+        background: theme === 'dark'
+          ? 'linear-gradient(135deg, #1a1f28 0%, #0f1419 100%)'
+          : 'linear-gradient(135deg, #fafaf8 0%, #f8f7f4 100%)',
+        border: '1px solid var(--border)',
+      }}
+    >
       <ChatKit
         key={widgetInstanceKey}
         control={chatkit.control}

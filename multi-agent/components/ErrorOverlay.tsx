@@ -25,19 +25,58 @@ export function ErrorOverlay({
     return null;
   }
 
+  const isError = !!error;
+
   return (
-    <div className="pointer-events-none absolute inset-0 z-10 flex h-full w-full flex-col justify-center rounded-[inherit] bg-white/85 p-6 text-center backdrop-blur dark:bg-slate-900/90">
-      <div className="pointer-events-auto mx-auto w-full max-w-md rounded-xl bg-white px-6 py-4 text-lg font-medium text-slate-700 dark:bg-transparent dark:text-slate-100">
-        <div>{content}</div>
-        {error && onRetry ? (
-          <button
-            type="button"
-            className="mt-4 inline-flex items-center justify-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-none transition hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
-            onClick={onRetry}
+    <div className="pointer-events-none absolute inset-0 z-10 flex h-full w-full flex-col justify-center rounded-[inherit] animate-fadeIn"
+      style={{
+        background: `linear-gradient(135deg, rgba(248, 247, 244, 0.95) 0%, rgba(248, 247, 244, 0.92) 100%)`,
+      }}
+    >
+      <style>{`
+        :root[data-color-scheme="dark"] + * .error-overlay {
+          background: linear-gradient(135deg, rgba(15, 20, 25, 0.95) 0%, rgba(15, 20, 25, 0.92) 100%) !important;
+        }
+      `}</style>
+      <div className="pointer-events-auto mx-auto w-full max-w-md animate-slideIn">
+        <div
+          className="rounded-2xl shadow-zen-lg p-8 text-center border"
+          style={{
+            borderColor: isError ? "var(--secondary)" : "var(--border)",
+            background: isError
+              ? "rgba(212, 117, 109, 0.08)"
+              : "rgba(79, 123, 167, 0.05)",
+          }}
+        >
+          {/* Icon */}
+          <div className="mb-4 text-4xl">
+            {isError ? "⚠️" : "⟳"}
+          </div>
+
+          {/* Message */}
+          <div
+            className="text-base font-medium leading-relaxed"
+            style={{ color: "var(--foreground)" }}
           >
-            {retryLabel ?? "Restart chat"}
-          </button>
-        ) : null}
+            {content}
+          </div>
+
+          {/* Retry Button */}
+          {error && onRetry ? (
+            <button
+              type="button"
+              className="mt-6 inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-300 hover:shadow-zen focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              style={{
+                background: "var(--primary)",
+                color: "white",
+                focusVisibleRingColor: "var(--primary)",
+              }}
+              onClick={onRetry}
+            >
+              {retryLabel ?? "Restart chat"}
+            </button>
+          ) : null}
+        </div>
       </div>
     </div>
   );

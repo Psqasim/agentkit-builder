@@ -1,21 +1,38 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Japanese-inspired light theme */
+  --background: #f8f7f4;
+  --foreground: #2d2922;
+  --primary: #4f7ba7;
+  --secondary: #d4756d;
+  --accent: #6ba39c;
+  --muted: #a89f98;
+  --border: #e8e3db;
   color-scheme: light;
 }
 
 :root[data-color-scheme="dark"] {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  /* Japanese-inspired dark theme - modern deep navy */
+  --background: #0f1419;
+  --foreground: #e8e3db;
+  --primary: #5b9fd8;
+  --secondary: #e8956f;
+  --accent: #7ec9bf;
+  --muted: #8b8680;
+  --border: #2a2e35;
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-color-scheme]) {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f1419;
+    --foreground: #e8e3db;
+    --primary: #5b9fd8;
+    --secondary: #e8956f;
+    --accent: #7ec9bf;
+    --muted: #8b8680;
+    --border: #2a2e35;
     color-scheme: dark;
   }
 }
@@ -23,12 +40,109 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-mono: SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Fira Code", SFMono-Regular, Consolas, "Liberation Mono", monospace;
+}
+
+* {
+  @apply transition-all duration-300 ease-out;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, var(--background) 0%, rgba(91, 159, 216, 0.05) 100%);
   color: var(--foreground);
   font-family: var(--font-sans);
+  letter-spacing: 0.3px;
+}
+
+/* Smooth animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Japanese aesthetic elements */
+.border-zen {
+  border-color: var(--border);
+}
+
+.shadow-zen {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-zen-lg {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+}
+
+.dark .glass-effect {
+  background: rgba(26, 25, 23, 0.6);
+  backdrop-filter: blur(10px);
 }
