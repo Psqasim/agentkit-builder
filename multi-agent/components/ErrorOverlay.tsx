@@ -37,6 +37,11 @@ export function ErrorOverlay({
         :root[data-color-scheme="dark"] + * .error-overlay {
           background: linear-gradient(135deg, rgba(15, 20, 25, 0.95) 0%, rgba(15, 20, 25, 0.92) 100%) !important;
         }
+        .retry-button:focus-visible {
+          ring-color: var(--primary);
+          outline: 2px solid var(--primary);
+          outline-offset: 2px;
+        }
       `}</style>
       <div className="pointer-events-auto mx-auto w-full max-w-md animate-slideIn">
         <div
@@ -65,11 +70,10 @@ export function ErrorOverlay({
           {error && onRetry ? (
             <button
               type="button"
-              className="mt-6 inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-300 hover:shadow-zen focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              className="retry-button mt-6 inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-300 hover:shadow-zen focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
               style={{
                 background: "var(--primary)",
                 color: "white",
-                focusVisibleRingColor: "var(--primary)",
               }}
               onClick={onRetry}
             >
