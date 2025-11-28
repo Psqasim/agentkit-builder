@@ -75,7 +75,7 @@ export default function App() {
           {/* Footer */}
           <div className="mt-8 text-center animate-fadeInUp" style={{ animationDelay: "600ms" }}>
             <p className="text-xs" style={{ color: "var(--muted)" }}>
-              Made with care • Multi-Agent System
+              Made with OPENAI AGENT KIT BUILDER • Multi-Agent System
             </p>
           </div>
         </div>
